@@ -3,1013 +3,366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus - Plateforme Intelligente 3-en-1</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Nexus – Univers Vivant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #1a1a1a;
-            --bg-glass: rgba(255, 255, 255, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.1);
-            --neon-primary: #00ff88;
-            --neon-secondary: #ff0066;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
-            --gradient: linear-gradient(135deg, #00ff88, #00aaff);
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        #particles-js {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .glass {
-            background: var(--bg-glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        .neon-text {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Login Screen */
-        #loginScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 100%);
-            z-index: 1000;
-        }
-
-        .login-container {
-            width: 400px;
-            padding: 60px 40px;
-            animation: slideIn 0.8s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .login-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--neon-primary);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-        }
-
-        .input-label {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-
-        .input-field:focus ~ .input-label,
-        .input-field:valid ~ .input-label {
-            top: -10px;
-            left: 10px;
-            font-size: 12px;
-            color: var(--neon-primary);
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 15px;
-            background: var(--gradient);
-            border: none;
-            border-radius: 10px;
-            color: var(--bg-primary);
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
-        }
-
-        /* Main App */
-        #app {
-            display: none;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 250px;
-            height: 100vh;
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid var(--border-glass);
-            padding: 20px;
-            z-index: 100;
-        }
-
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-item:hover {
-            background: rgba(0, 255, 136, 0.1);
-            transform: translateX(5px);
-        }
-
-        .sidebar-item.active {
-            background: rgba(0, 255, 136, 0.2);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
-        }
-
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .search-bar {
-            position: relative;
-            width: 300px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 20px 12px 50px;
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass);
-            border-radius: 25px;
-            color: var(--text-primary);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-        }
-
-        .notification-bell {
-            position: relative;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 20px;
-            height: 20px;
-            background: var(--neon-secondary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .widget {
-            padding: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .widget:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.2);
-        }
-
-        .widget-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .widget-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .widget-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .widget-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .project-card {
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.1);
-        }
-
-        .project-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        .project-progress {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: var(--gradient);
-            transition: width 0.3s ease;
-        }
-
-        .social-feed {
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
-        .post {
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-weight: bold;
-        }
-
-        .post-content {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .post-actions {
-            display: flex;
-            gap: 20px;
-            color: var(--text-secondary);
-        }
-
-        .post-action {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .post-action:hover {
-            color: var(--neon-primary);
-        }
-
-        .competitor-card {
-            padding: 20px;
-            margin-bottom: 15px;
-        }
-
-        .competitor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .competitor-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .competitor-score {
-            padding: 5px 15px;
-            background: var(--gradient);
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--bg-primary);
-        }
-
-        .chatbot {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 350px;
-            z-index: 1000;
-        }
-
-        .chatbot-header {
-            padding: 15px 20px;
-            background: var(--gradient);
-            color: var(--bg-primary);
-            border-radius: 15px 15px 0 0;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .chatbot-body {
-            height: 400px;
-            padding: 20px;
-            overflow-y: auto;
-            display: none;
-        }
-
-        .chatbot-body.active {
-            display: block;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            border-radius: 15px;
-            max-width: 80%;
-        }
-
-        .message.user {
-            background: rgba(0, 255, 136, 0.2);
-            margin-left: auto;
-        }
-
-        .message.bot {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .chat-input {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            color: var(--text-primary);
-        }
-
-        .chat-input button {
-            padding: 10px 20px;
-            background: var(--gradient);
-            border: none;
-            border-radius: 25px;
-            color: var(--bg-primary);
-            cursor: pointer;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .login-container {
-                width: 90%;
-                padding: 40px 20px;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--gradient);
-            border-radius: 4px;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* ===== VARIABLES & RESET ===== */
+        :root{
+            --bg:#000;
+            --glass:rgba(255,255,255,.05);
+            --neon:#00ff88;
+            --pink:#ff0066;
+            --text:#fff;
+            --blur:blur(20px);
+            --grad:linear-gradient(135deg,var(--neon),var(--pink));
+        }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+        body{background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;}
+
+        /* ===== PARTICULES ===== */
+        #particles-js{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+
+        /* ===== NEON PULSANT GLOBAL ===== */
+        @keyframes neonPulse{
+            0%,100%{text-shadow:0 0 5px var(--neon),0 0 10px var(--neon),0 0 20px var(--neon);}
+            50%{text-shadow:0 0 10px var(--neon),0 0 20px var(--neon),0 0 40px var(--neon),0 0 80px var(--neon);}
+        }
+        .neon{animation:neonPulse 2s infinite;}
+        .glass{
+            background:var(--glass);backdrop-filter:var(--blur);
+            border:1px solid rgba(255,255,255,.1);
+            border-radius:20px;box-shadow:0 8px 32px rgba(0,255,136,.1);
+            transition:transform .3s ease,box-shadow .3s ease;
+        }
+        .glass:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 15px 40px rgba(0,255,136,.3);}
+
+        /* ===== SIDEBAR ===== */
+        .sidebar{
+            position:fixed;top:0;left:0;width:250px;height:100vh;
+            background:var(--glass);backdrop-filter:var(--blur);
+            border-right:1px solid rgba(255,255,255,.1);
+            padding:30px 20px;display:flex;flex-direction:column;gap:20px;
+        }
+        .sidebar h2{@extend .neon;text-align:center;margin-bottom:20px;font-size:2rem;}
+        .sidebar-item{
+            display:flex;align-items:center;gap:15px;padding:15px;border-radius:15px;
+            cursor:pointer;position:relative;overflow:hidden;
+            transition:background .3s ease,transform .3s ease;
+        }
+        .sidebar-item:hover{background:rgba(0,255,136,.15);transform:translateX(10px);}
+        .sidebar-item.active{background:rgba(0,255,136,.25);}
+        .sidebar-item::after{ /* vague animée */
+            content:'';position:absolute;inset:0;
+            background:var(--grad);opacity:0;z-index:-1;
+            transition:opacity .4s ease;
+        }
+        .sidebar-item:hover::after{opacity:.2;}
+
+        /* ===== MAIN ===== */
+        .main{margin-left:250px;padding:30px;}
+        .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;}
+        .search-bar{position:relative;width:300px;}
+        .search-bar input{
+            width:100%;padding:12px 20px 12px 50px;border-radius:25px;
+            background:var(--glass);border:1px solid rgba(255,255,255,.1);color:var(--text);
+            transition:box-shadow .3s;
+        }
+        .search-bar input:focus{box-shadow:0 0 20px var(--neon);}
+        .search-bar i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--neon);}
+        .notification{
+            position:relative;font-size:24px;cursor:pointer;
+            animation:bounce 2s infinite;
+        }
+        @keyframes bounce{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+        .badge{
+            position:absolute;top:-5px;right:-5px;background:var(--pink);
+            width:20px;height:20px;border-radius:50%;font-size:12px;display:flex;align-items:center;justify-content:center;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section{display:none;}
+        .section.active{display:block;animation:fadeIn .6s ease;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+        /* ===== WIDGETS GRID ===== */
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;margin-bottom:40px;}
+        .widget{padding:30px;}
+        .widget h3{font-size:1.4rem;margin-bottom:15px;display:flex;align-items:center;gap:10px;}
+        .widget .num{font-size:3rem;font-weight:900;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .widget footer{font-size:.9rem;color:rgba(255,255,255,.6);}
+        /* lettres vivantes */
+        .widget span{display:inline-block;animation:textFloat 3s ease-in-out infinite;}
+        @keyframes textFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+
+        /* ===== PROJECTS ===== */
+        .project-list{display:flex;flex-direction:column;gap:20px;}
+        .project-card{padding:25px;}
+        .project-card h4{font-size:1.3rem;margin-bottom:10px;}
+        .progress{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin:10px 0;}
+        .progress-bar{height:100%;background:var(--grad);width:0;transition:width 1.5s ease;}
+        .project-card:hover .progress-bar{animation:fillBar 2s forwards;}
+        @keyframes fillBar{to{width:var(--w);}}
+
+        /* ===== SOCIAL ===== */
+        .feed{display:flex;flex-direction:column;gap:25px;max-height:70vh;overflow-y:auto;padding-right:10px;}
+        .post{padding:25px;}
+        .post-head{display:flex;align-items:center;gap:15px;margin-bottom:15px;}
+        .avatar{width:45px;height:45px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:bold;}
+        .post-txt{line-height:1.6;margin-bottom:15px;}
+        .post-actions{display:flex;gap:25px;color:rgba(255,255,255,.6);}
+        .post-actions div{cursor:pointer;transition:color .3s,transform .3s;}
+        .post-actions div:hover{color:var(--neon);transform:scale(1.1);}
+
+        /* ===== COMPETITORS ===== */
+        .comp-list{display:flex;flex-direction:column;gap:25px;}
+        .comp-card{padding:25px;}
+        .comp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
+        .comp-score{padding:5px 15px;background:var(--grad);border-radius:20px;font-weight:bold;color:#000;}
+        canvas{background:rgba(255,255,255,.03);border-radius:10px;}
+
+        /* ===== CHATBOT ===== */
+        .chatbot{position:fixed;bottom:20px;right:20px;width:350px;z-index:1000;}
+        .chat-head{padding:15px 20px;background:var(--grad);color:#000;border-radius:15px 15px 0 0;font-weight:bold;cursor:pointer;}
+        .chat-body{height:400px;padding:20px;display:none;overflow-y:auto;}
+        .chat-body.active{display:block;animation:slideUp .4s ease;}
+        @keyframes slideUp{from{height:0;}to{height:400px;}}
+        .msg{margin-bottom:10px;padding:10px 15px;border-radius:15px;max-width:80%;}
+        .msg.user{background:rgba(0,255,136,.2);margin-left:auto;}
+        .msg.bot{background:rgba(255,255,255,.1);}
+        .chat-input{display:flex;gap:10px;margin-top:10px;}
+        .chat-input input{flex:1;padding:10px 15px;border-radius:25px;background:rgba(255,255,255,.1);border:none;color:#fff;}
+        .chat-input button{padding:10px 20px;border-radius:25px;background:var(--grad);border:none;color:#000;cursor:pointer;}
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:768px){
+            .sidebar{position:relative;width:100%;height:auto;}
+            .main{margin-left:0;}
         }
     </style>
 </head>
 <body>
-    <!-- Particles Background -->
+    <!-- Background Particles -->
     <div id="particles-js"></div>
 
-    <!-- Login Screen -->
-    <div id="loginScreen">
-        <div class="login-container glass">
-            <h1 class="login-title neon-text">Nexus</h1>
-            <form id="loginForm">
-                <div class="input-group">
-                    <input type="email" class="input-field" required id="email">
-                    <label class="input-label">Email</label>
-                </div>
-                <div class="input-group">
-                    <input type="password" class="input-field" required id="password">
-                    <label class="input-label">Mot de passe</label>
-                </div>
-                <button type="submit" class="btn-primary">Connexion</button>
-            </form>
+    <!-- SIDEBAR -->
+    <nav class="sidebar glass">
+        <h2 class="neon">Nexus</h2>
+        <div class="sidebar-item active" data-section="dashboard">
+            <i class="fas fa-tachometer-alt"></i>Dashboard
         </div>
-    </div>
+        <div class="sidebar-item" data-section="projects">
+            <i class="fas fa-project-diagram"></i>Projets
+        </div>
+        <div class="sidebar-item" data-section="social">
+            <i class="fas fa-users"></i>Réseau Social
+        </div>
+        <div class="sidebar-item" data-section="competitors">
+            <i class="fas fa-eye"></i>Veille
+        </div>
+    </nav>
 
-    <!-- Main App -->
-    <div id="app">
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <h2 class="neon-text" style="margin-bottom: 30px;">Nexus</h2>
-            <div class="sidebar-item active" data-section="dashboard">
-                <i class="fas fa-chart-line" style="margin-right: 10px;"></i>
-                Dashboard
+    <!-- MAIN CONTENT -->
+    <main class="main">
+        <!-- Header -->
+        <header class="header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher..." id="searchInput">
             </div>
-            <div class="sidebar-item" data-section="projects">
-                <i class="fas fa-project-diagram" style="margin-right: 10px;"></i>
-                Projets
+            <div class="notification">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
             </div>
-            <div class="sidebar-item" data-section="social">
-                <i class="fas fa-users" style="margin-right: 10px;"></i>
-                Réseau Social
-            </div>
-            <div class="sidebar-item" data-section="competitors">
-                <i class="fas fa-eye" style="margin-right: 10px;"></i>
-                Veille Concurrentielle
-            </div>
-        </nav>
+        </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="header">
-                <div class="search-bar">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Rechercher..." id="searchInput">
+        <!-- DASHBOARD -->
+        <section class="section active" id="dashboard">
+            <h1 class="neon" style="font-size:2.5rem;margin-bottom:30px;animation:neonPulse 2s infinite;">Tableau de bord</h1>
+            <div class="grid">
+                <div class="widget glass">
+                    <h3><i class="fas fa-folder-open"></i> Projets actifs</h3>
+                    <div class="num"><span>1</span><span>2</span></div>
+                    <footer>+3 ce mois</footer>
                 </div>
-                <div class="notification-bell">
-                    <i class="fas fa-bell"></i>
-                    <div class="notification-badge" id="notificationBadge">3</div>
+                <div class="widget glass">
+                    <h3><i class="fas fa-heart"></i> Interactions sociales</h3>
+                    <div class="num"><span>1</span><span>.</span><span>2</span><span>k</span></div>
+                    <footer>+15 % cette semaine</footer>
+                </div>
+                <div class="widget glass">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Alertes</h3>
+                    <div class="num"><span>7</span></div>
+                    <footer>2 nouvelles aujourd'hui</footer>
                 </div>
             </div>
+        </section>
 
-            <!-- Dashboard Section -->
-            <div class="section active" id="dashboard">
-                <h1 class="neon-text" style="margin-bottom: 30px;">Tableau de bord</h1>
-                <div class="dashboard-grid">
-                    <div class="widget glass">
-                        <div class="widget-header">
-                            <span class="widget-title">Projets actifs</span>
-                            <i class="fas fa-folder-open"></i>
-                        </div>
-                        <div class="widget-value">12</div>
-                        <div class="widget-footer">
-                            <span>+3 ce mois</span>
-                            <i class="fas fa-arrow-up" style="color: var(--neon-primary);"></i>
-                        </div>
-                    </div>
-                    <div class="widget glass">
-                        <div class="widget-header">
-                            <span class="widget-title">Interactions sociales</span>
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="widget-value">1.2k</div>
-                        <div class="widget-footer">
-                            <span>+15% cette semaine</span>
-                            <i class="fas fa-arrow-up" style="color: var(--neon-primary);"></i>
-                        </div>
-                    </div>
-                    <div class="widget glass">
-                        <div class="widget-header">
-                            <span class="widget-title">Alertes concurrentes</span>
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <div class="widget-value">7</div>
-                        <div class="widget-footer">
-                            <span>2 nouvelles aujourd'hui</span>
-                            <i class="fas fa-exclamation-circle" style="color: var(--neon-secondary);"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- PROJECTS -->
+        <section class="section" id="projects">
+            <h1 class="neon" style="font-size:2.5rem;margin-bottom:30px;">Projets</h1>
+            <div class="project-list" id="projectsList"></div>
+            <button class="btn-primary" style="max-width:200px;margin-top:20px;" onclick="addProject()">
+                <i class="fas fa-plus"></i> Nouveau Projet
+            </button>
+        </section>
 
-            <!-- Projects Section -->
-            <div class="section" id="projects">
-                <h1 class="neon-text" style="margin-bottom: 30px;">Gestion des Projets</h1>
-                <div id="projectsList">
-                    <!-- Projects will be populated by JS -->
-                </div>
-                <button class="btn-primary" style="max-width: 200px; margin-top: 20px;" onclick="addProject()">
-                    <i class="fas fa-plus"></i> Nouveau Projet
-                </button>
-            </div>
+        <!-- SOCIAL -->
+        <section class="section" id="social">
+            <h1 class="neon" style="font-size:2.5rem;margin-bottom:30px;">Réseau Social</h1>
+            <div class="feed" id="socialFeed"></div>
+            <button class="btn-primary" style="max-width:200px;margin-top:20px;" onclick="addPost()">
+                <i class="fas fa-plus"></i> Nouveau Post
+            </button>
+        </section>
 
-            <!-- Social Section -->
-            <div class="section" id="social">
-                <h1 class="neon-text" style="margin-bottom: 30px;">Réseau Social Décentralisé</h1>
-                <div class="social-feed" id="socialFeed">
-                    <!-- Posts will be populated by JS -->
-                </div>
-                <button class="btn-primary" style="max-width: 200px; margin-top: 20px;" onclick="addPost()">
-                    <i class="fas fa-plus"></i> Nouveau Post
-                </button>
-            </div>
+        <!-- COMPETITORS -->
+        <section class="section" id="competitors">
+            <h1 class="neon" style="font-size:2.5rem;margin-bottom:30px;">Veille Concurrentielle</h1>
+            <div class="comp-list" id="competitorsList"></div>
+        </section>
+    </main>
 
-            <!-- Competitors Section -->
-            <div class="section" id="competitors">
-                <h1 class="neon-text" style="margin-bottom: 30px;">Veille Concurrentielle</h1>
-                <div id="competitorsList">
-                    <!-- Competitors will be populated by JS -->
-                </div>
-            </div>
-        </main>
-
-        <!-- Chatbot -->
-        <div class="chatbot glass">
-            <div class="chatbot-header" onclick="toggleChat()">
-                <i class="fas fa-robot"></i> Assistant IA
-                <i class="fas fa-chevron-up" id="chatToggle" style="float: right;"></i>
-            </div>
-            <div class="chatbot-body" id="chatBody">
-                <div class="message bot">
-                    Bonjour ! Je suis votre assistant IA. Comment puis-je vous aider ?
-                </div>
-                <div id="chatMessages"></div>
-                <div class="chat-input">
-                    <input type="text" id="chatInput" placeholder="Tapez votre message..." onkeypress="handleChatKeyPress(event)">
-                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
-                </div>
+    <!-- CHATBOT -->
+    <div class="chatbot glass">
+        <div class="chat-head" onclick="toggleChat()">
+            <i class="fas fa-robot"></i> Assistant IA <i id="chatToggle" class="fas fa-chevron-up" style="float:right;"></i>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg bot">Salut ! Je suis là pour t’aider.</div>
+            <div id="chatMessages"></div>
+            <div class="chat-input">
+                <input id="chatInput" placeholder="Écris un message…" onkeypress="if(event.key==='Enter')sendMessage()">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
     <script>
-        // Particles.js Configuration
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: '#00ff88' },
-                shape: { type: 'circle' },
-                opacity: { value: 0.5, random: false },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#00ff88',
-                    opacity: 0.2,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: { enable: true, mode: 'grab' },
-                    onclick: { enable: true, mode: 'push' },
-                    resize: true
-                }
-            }
+        /* ===== PARTICLES ===== */
+        particlesJS('particles-js',{
+            particles:{number:{value:80,density:{enable:true,value_area:800}},
+                       color:{value:'#00ff88'},
+                       shape:{type:'circle'},
+                       opacity:{value:.4,random:true},
+                       size:{value:3,random:true},
+                       line_linked:{enable:true,distance:150,color:'#00ff88',opacity:.2,width:1},
+                       move:{enable:true,speed:2,direction:'none',random:false,straight:false}},
+            interactivity:{detect_on:'canvas',events:{onhover:{enable:true,mode:'grab'},onclick:{enable:true,mode:'push'}}}
         });
 
-        // Login System
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (email && password) {
-                localStorage.setItem('user', JSON.stringify({ email, name: email.split('@')[0] }));
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('app').style.display = 'block';
-                document.getElementById('dashboard').classList.add('active');
-                initializeApp();
-            }
-        });
-
-        // Navigation System
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                
-                const section = this.getAttribute('data-section');
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                document.getElementById(section).classList.add('active');
+        /* ===== NAVIGATION ===== */
+        document.querySelectorAll('.sidebar-item').forEach(item=>{
+            item.addEventListener('click',()=>{
+                document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+                item.classList.add('active');
+                const sec=item.dataset.section;
+                document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+                document.getElementById(sec).classList.add('active');
             });
         });
 
-        // Search Functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase();
-            filterContent(query);
-        });
-
-        function filterContent(query) {
-            const sections = document.querySelectorAll('.section.active *');
-            sections.forEach(element => {
-                if (element.textContent && element.textContent.toLowerCase().includes(query)) {
-                    element.style.opacity = '1';
-                } else if (query && element.textContent) {
-                    element.style.opacity = '0.5';
-                } else {
-                    element.style.opacity = '1';
-                }
-            });
-        }
-
-        // Projects Management
-        let projects = [
-            { id: 1, name: 'Développement App Mobile', progress: 75, members: ['Alice', 'Bob', 'Charlie'] },
-            { id: 2, name: 'Refonte Site Web', progress: 45, members: ['David', 'Eve'] },
-            { id: 3, name: 'Campagne Marketing', progress: 90, members: ['Frank', 'Grace'] }
+        /* ===== DATA ===== */
+        let projects=[
+            {id:1,name:'App Mobile',progress:75,members:['Alice','Bob']},
+            {id:2,name:'Refonte Site',progress:45,members:['Charlie']},
+            {id:3,name:'Marketing',progress:90,members:['Dave','Eve']}
+        ];
+        let posts=[
+            {id:1,author:'Alice',content:'Nouvelle version disponible 🚀',likes:12,comments:3},
+            {id:2,author:'Bob',content:'Qui veut collaborer ?',likes:7,comments:4}
+        ];
+        let competitors=[
+            {name:'TechCorp',score:85,trends:[75,78,82,85]},
+            {name:'InnovLab',score:78,trends:[70,73,75,78]}
         ];
 
-        function renderProjects() {
-            const container = document.getElementById('projectsList');
-            container.innerHTML = projects.map(project => `
+        /* ===== RENDER ===== */
+        function renderProjects(){
+            const list=document.getElementById('projectsList');
+            list.innerHTML=projects.map(p=>`
                 <div class="project-card glass">
-                    <div class="project-title">${project.name}</div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>Progression</span>
-                        <span>${project.progress}%</span>
+                    <h4>${p.name}</h4>
+                    <div class="progress">
+                        <div class="progress-bar" style="--w:${p.progress}%"></div>
                     </div>
-                    <div class="project-progress">
-                        <div class="progress-bar" style="width: ${project.progress}%"></div>
-                    </div>
-                    <div style="margin-top: 15px;">
-                        <strong>Équipe:</strong> ${project.members.join(', ')}
-                    </div>
-                    <button class="btn-primary" style="margin-top: 10px;" onclick="openProject(${project.id})">
-                        <i class="fas fa-comments"></i> Ouvrir
-                    </button>
+                    <div style="margin-top:10px;">Équipe: ${p.members.join(', ')}</div>
                 </div>
             `).join('');
         }
-
-        function addProject() {
-            const name = prompt('Nom du nouveau projet:');
-            if (name) {
-                projects.push({
-                    id: projects.length + 1,
-                    name,
-                    progress: 0,
-                    members: [JSON.parse(localStorage.getItem('user')).name]
-                });
-                renderProjects();
-            }
-        }
-
-        function openProject(id) {
-            const project = projects.find(p => p.id === id);
-            if (project) {
-                alert(`Ouverture du projet: ${project.name}`);
-            }
-        }
-
-        // Social Feed
-        let posts = [
-            { id: 1, author: 'Alice', content: 'Nouvelle mise à jour sur notre projet de développement mobile !', likes: 15, comments: 3 },
-            { id: 2, author: 'Bob', content: 'Qui veut rejoindre notre équipe pour la refonte du site ?', likes: 8, comments: 5 },
-            { id: 3, author: 'Charlie', content: 'Les résultats de la campagne marketing sont excellents !', likes: 23, comments: 7 }
-        ];
-
-        function renderSocialFeed() {
-            const container = document.getElementById('socialFeed');
-            container.innerHTML = posts.map(post => `
+        function renderSocial(){
+            const feed=document.getElementById('socialFeed');
+            feed.innerHTML=posts.map(p=>`
                 <div class="post glass">
-                    <div class="post-header">
-                        <div class="avatar">${post.author[0]}</div>
-                        <div>
-                            <div style="font-weight: bold;">${post.author}</div>
-                            <div style="font-size: 0.9em; color: var(--text-secondary);">Il y a 2h</div>
-                        </div>
+                    <div class="post-head">
+                        <div class="avatar">${p.author[0]}</div>
+                        <div><strong>${p.author}</strong><br><small>Il y a 2h</small></div>
                     </div>
-                    <div class="post-content">${post.content}</div>
+                    <div class="post-txt">${p.content}</div>
                     <div class="post-actions">
-                        <div class="post-action" onclick="likePost(${post.id})">
-                            <i class="fas fa-heart"></i>
-                            <span>${post.likes}</span>
-                        </div>
-                        <div class="post-action" onclick="commentPost(${post.id})">
-                            <i class="fas fa-comment"></i>
-                            <span>${post.comments}</span>
-                        </div>
-                        <div class="post-action">
-                            <i class="fas fa-share"></i>
-                            <span>Partager</span>
-                        </div>
+                        <div onclick="like(${p.id})"><i class="fas fa-heart"></i> ${p.likes}</div>
+                        <div onclick="comment(${p.id})"><i class="fas fa-comment"></i> ${p.comments}</div>
+                        <div><i class="fas fa-share"></i></div>
                     </div>
                 </div>
             `).join('');
         }
-
-        function likePost(id) {
-            const post = posts.find(p => p.id === id);
-            if (post) {
-                post.likes++;
-                renderSocialFeed();
-            }
-        }
-
-        function commentPost(id) {
-            const comment = prompt('Ajouter un commentaire:');
-            if (comment) {
-                const post = posts.find(p => p.id === id);
-                post.comments++;
-                renderSocialFeed();
-            }
-        }
-
-        function addPost() {
-            const content = prompt('Votre post:');
-            if (content) {
-                posts.unshift({
-                    id: posts.length + 1,
-                    author: JSON.parse(localStorage.getItem('user')).name,
-                    content,
-                    likes: 0,
-                    comments: 0
-                });
-                renderSocialFeed();
-            }
-        }
-
-        // Competitors Monitoring
-        let competitors = [
-            { name: 'TechCorp', score: 85, trends: [75, 80, 82, 85] },
-            { name: 'InnovateLab', score: 78, trends: [70, 72, 75, 78] },
-            { name: 'FutureTech', score: 92, trends: [88, 90, 91, 92] }
-        ];
-
-        function renderCompetitors() {
-            const container = document.getElementById('competitorsList');
-            container.innerHTML = competitors.map(competitor => `
-                <div class="competitor-card glass">
-                    <div class="competitor-header">
-                        <div class="competitor-name">${competitor.name}</div>
-                        <div class="competitor-score">${competitor.score}%</div>
+        function renderComp(){
+            const list=document.getElementById('competitorsList');
+            list.innerHTML=competitors.map(c=>`
+                <div class="comp-card glass">
+                    <div class="comp-header">
+                        <span class="comp-name">${c.name}</span>
+                        <span class="comp-score">${c.score}%</span>
                     </div>
-                    <canvas id="chart-${competitor.name}" width="300" height="100"></canvas>
-                    <div style="margin-top: 15px;">
-                        <button class="btn-primary" onclick="analyzeCompetitor('${competitor.name}')">
-                            <i class="fas fa-search"></i> Analyser
-                        </button>
-                    </div>
+                    <canvas id="c-${c.name}" width="300" height="80" style="width:100%;"></canvas>
                 </div>
             `).join('');
-            
-            // Simple chart rendering
-            setTimeout(() => {
-                competitors.forEach(competitor => {
-                    const canvas = document.getElementById(`chart-${competitor.name}`);
-                    if (canvas) {
-                        const ctx = canvas.getContext('2d');
-                        ctx.strokeStyle = '#00ff88';
-                        ctx.lineWidth = 2;
-                        ctx.beginPath();
-                        competitor.trends.forEach((value, index) => {
-                            const x = (index / (competitor.trends.length - 1)) * canvas.width;
-                            const y = canvas.height - (value / 100) * canvas.height;
-                            if (index === 0) ctx.moveTo(x, y);
-                            else ctx.lineTo(x, y);
-                        });
-                        ctx.stroke();
-                    }
-                });
-            }, 100);
+            setTimeout(()=>competitors.forEach(drawSpark),100);
+        }
+        function drawSpark(c){
+            const cv=document.getElementById('c-'+c.name),ctx=cv.getContext('2d');
+            ctx.strokeStyle='#00ff88';ctx.lineWidth=2;
+            ctx.beginPath();
+            c.trends.forEach((v,i)=>{
+                const x=(i/(c.trends.length-1))*cv.width;
+                const y=cv.height-(v/100)*cv.height;
+                i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+            });
+            ctx.stroke();
         }
 
-        function analyzeCompetitor(name) {
-            alert(`Analyse approfondie de ${name} en cours... (Simulation)`);
+        /* ===== ACTIONS ===== */
+        function addProject(){
+            const n=prompt('Nom du projet ?');
+            if(n){projects.push({id:projects.length+1,name:n,progress:0,members:['Moi']});renderProjects();}
+        }
+        function addPost(){
+            const t=prompt('Ton post :');
+            if(t){posts.unshift({id:posts.length+1,author:'Moi',content:t,likes:0,comments:0});renderSocial();}
+        }
+        function like(id){const p=posts.find(x=>x.id===id);p.likes++;renderSocial();}
+        function comment(id){const p=posts.find(x=>x.id===id);p.comments++;renderSocial();}
+
+        /* ===== CHATBOT ===== */
+        function toggleChat(){
+            const b=document.getElementById('chatBody');
+            b.classList.toggle('active');
+            document.getElementById('chatToggle').className=b.classList.contains('active')?'fas fa-chevron-down':'fas fa-chevron-up';
+        }
+        function sendMessage(){
+            const inp=document.getElementById('chatInput'),msg=inp.value.trim();
+            if(!msg)return;
+            addChat(msg,'user');inp.value='';
+            setTimeout(()=>addChat(['Bien reçu !','Je regarde ça.','À ta dispo !'][Math.floor(Math.random()*3)],'bot'),800);
+        }
+        function addChat(txt,who){
+            const box=document.getElementById('chatMessages');
+            const d=document.createElement('div');d.className='msg '+who;d.textContent=txt;
+            box.appendChild(d);box.scrollTop=box.scrollHeight;
         }
 
-        // Chatbot
-        function toggleChat() {
-            const body = document.getElementById('chatBody');
-            const toggle = document.getElementById('chatToggle');
-            body.classList.toggle('active');
-            toggle.className = body.classList.contains('active') ? 'fas fa-chevron-down' : 'fas fa-chevron-up';
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (message) {
-                addChatMessage(message, 'user');
-                input.value = '';
-                
-                // Simulate AI response
-                setTimeout(() => {
-                    const responses = [
-                        'Je comprends votre demande. Voici une suggestion...',
-                        'Intéressant ! Voici ce que je recommande...',
-                        'Je vais analyser cela pour vous...',
-                        'Merci pour votre question. Voici la réponse...'
-                    ];
-                    const response = responses[Math.floor(Math.random() * responses.length)];
-                    addChatMessage(response, 'bot');
-                }, 1000);
-            }
-        }
-
-        function addChatMessage(message, sender) {
-            const container = document.getElementById('chatMessages');
-            const div = document.createElement('div');
-            div.className = `message ${sender}`;
-            div.textContent = message;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function handleChatKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        }
-
-        // Notifications
-        function showNotification(message) {
-            const badge = document.getElementById('notificationBadge');
-            const count = parseInt(badge.textContent) + 1;
-            badge.textContent = count;
-            
-            // Create notification popup
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                background: var(--bg-glass);
-                backdrop-filter: blur(10px);
-                border: 1px solid var(--border-glass);
-                border-radius: 10px;
-                color: white;
-                z-index: 1001;
-                animation: slideInRight 0.5s ease;
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 5000);
-        }
-
-        // Initialize App
-        function initializeApp() {
-            renderProjects();
-            renderSocialFeed();
-            renderCompetitors();
-            
-            // Simulate notifications
-            setTimeout(() => showNotification('Nouvelle alerte concurrentielle détectée !'), 5000);
-            setTimeout(() => showNotification('Un nouveau membre a rejoint votre projet'), 10000);
-        }
-
-        // Auto-login if user exists in localStorage
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('user')) {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('app').style.display = 'block';
-                document.getElementById('dashboard').classList.add('active');
-                initializeApp();
-            }
-        });
+        /* ===== INIT ===== */
+        renderProjects();renderSocial();renderComp();
     </script>
 </body>
 </html>
